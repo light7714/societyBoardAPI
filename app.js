@@ -2,6 +2,7 @@ const express = require('express');
 
 const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
+const User = require('./models/user');
 
 const PORT = 8080;
 
@@ -46,3 +47,18 @@ process.on('SIGINT', () => {
 	console.log('\nShutting down');
 	process.exit(1);
 });
+
+// User.findByEmail('shubhamlightnijng99@gmail.com')
+// 	.then(([rows, data]) => {
+// 		// if (!rows) {
+// 		// 	console.log('nor row');
+// 		// }
+// 		console.log(rows[0].email);
+// 	})
+// 	.catch((err) => {
+// 		if (err.message === "Cannot read property 'email' of undefined") {
+// 			console.log('not');
+// 		} else {
+// 			console.log('tech error', err);
+// 		}
+// 	});

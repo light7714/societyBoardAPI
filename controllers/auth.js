@@ -50,3 +50,50 @@ exports.signup = (req, res, next) => {
 			}
 		});
 };
+
+exports.login = (req, res, next) => {
+	const email = req.body.email;
+	const password = req.body.password;
+	let user;
+
+	User.findByEmail(email)
+		.then(([rows, data]) => {
+			user = rows[0];
+			return bcrypt.compare(password, user.password);
+		})
+		.then((isEqual) => {
+			if (!isEqual) {
+				const error = new Error('Wrong password!');
+				error.statusCode = 401;
+				throw error;
+			}
+			//creating jwt token
+			const token = jwt.sign(
+				{
+					email: user.email,
+					userId: user.userId,
+				},
+				process.env.jwt_secret,
+				{ expiresIn: '1h' }
+			);
+			//in frontend we look for the user id and store it
+			res.status(200).json({
+				token: token,
+				userId: user.userId,
+			});
+		})
+		.catch((err) => {
+			if (err.message === "Cannot read property 'email' of undefined") {
+				console.log('cant find email');
+				err.statusCode = 401;
+				next(err);
+			} else {
+				if (err) {
+					if (!err.statusCode) {
+						err.statusCode = 500;
+					}
+					next(err);
+				}
+			}
+		});
+};

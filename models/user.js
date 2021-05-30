@@ -16,4 +16,9 @@ module.exports = class User {
 			[this.userId, this.email, this.password, this.groupId]
 		);
 	}
+
+	static findByEmail(email) {
+		// return db.execute('SELECT * FROM users');
+		return db.execute('SELECT * FROM users WHERE users.email = ?', [email])
+	}
 };
