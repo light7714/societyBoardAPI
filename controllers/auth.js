@@ -74,7 +74,7 @@ exports.login = (req, res, next) => {
 					userId: user.userId,
 				},
 				process.env.jwt_secret,
-				{ expiresIn: '1h' }
+				{ expiresIn: '24h' }
 			);
 			//in frontend we look for the user id and store it
 			res.status(200).json({
@@ -97,3 +97,4 @@ exports.login = (req, res, next) => {
 			}
 		});
 };
+
