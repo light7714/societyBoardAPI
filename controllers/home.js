@@ -90,7 +90,7 @@ exports.getHome = (req, res, next) => {
 				next(error);
 			}
 
-			console.log(resolvedPromises);
+			// console.log(resolvedPromises);
 			res.status(200).json({
 				message: 'Fetched events successfully',
 				events: events,
